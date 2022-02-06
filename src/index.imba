@@ -11,8 +11,10 @@ class State
 
 				elif typeof target[prop] === 'function' && prop == 'set'
 					return do(...args)
+						const oldValue = target[args[0]]
+
 						target[args[0]] = args[1]
-						target.set(args[0], args[1])
+						target.set(args[0], args[1], oldValue)
 
 						target[args[0]]
 				else
@@ -55,10 +57,11 @@ tag InitializeState
 					JSON.parse(state),
 					{
 						get: do(prop) null
-						set: do(prop, value)
+						set: do(prop, value, old)
 							stateEvent.emit('changed', {
 								prop,
-								value
+								value,
+								old
 							})
 					}
 				)
@@ -69,7 +72,7 @@ def watch props\String[] = [], callback\Function
 
 	stateEvent.on 'changed', do(event)
 		if props.includes(event.detail.prop)
-			callback(event.detail.value, event.detail.prop)
+			callback(event.detail.value, event.detail.old, event.detail.prop)
 
 export {
 	createAppState
