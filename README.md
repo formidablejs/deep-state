@@ -26,11 +26,11 @@ export class Welcome < View
 				<title> "Welcome"
 
 			<body>
-				<InitializeState html:state={
+				<InitializeState html:state=JSON.parse({
 					locale: get('locale')
 					formidableVersion: get('formidableVersion')
 					nodeVersion: get('nodeVersion')
-				}>
+				})>
 
 				<InfoComponent>
 ```
