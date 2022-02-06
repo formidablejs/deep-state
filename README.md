@@ -42,12 +42,12 @@ export tag InfoComponent
 	prop formidableVersion\String = state && state.formidableVersion
 	prop nodeVersion\String = state && state.nodeVersion
 
+	def changeLocale
+		state.set('locale', 'es')
+
 	def rendered
 		watch ['locale'], do(newValue)
 			locale = newValue
-
-	def changeLocale
-		state.set('locale', 'es')
 
 	def render
 		<self>
