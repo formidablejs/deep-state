@@ -4,7 +4,52 @@
 
 A State Management library for Formidable.
 
-Example
+Working Implementation
+------
+
+**welcome.imba** (Formidable view)
+
+```ruby
+export class Welcome < View
+
+	def render
+		<html>
+			<head>
+				<title> "Welcome"
+
+			<body>
+				<InfoComponent html:props=JSON.parse({
+					locale: get('locale')
+					formidableVersion: get('formidableVersion')
+					nodeVersion: get('nodeVersion')
+				})>
+```
+
+**info-component.imba** (Imba Component)
+
+```ruby
+export tag InfoComponent
+	prop locale\String
+	prop formidableVersion\String
+	prop nodeVersion\String
+
+	def changeLocale
+		locale = 'es'
+
+	def render
+		if !rendered? then {
+			locale, formidableVersion, nodeVersion
+		} = readProps(self)
+
+		<self>
+			<p> "Locale: {locale}"
+			<p> "Formidable Version: {formidableVersion}"
+			<p> "Node Version: {nodeVersion}"
+
+			<button @click=changeLocale> "Change Locale"
+```
+
+WIP
 ------
 
 ### The problem
@@ -17,7 +62,7 @@ We need to reference the `InitializeState` Imba Component that can read attribut
 
 **welcome.imba** (Formidable view)
 
-```py
+```ruby
 export class Welcome < View
 
 	def render
@@ -36,7 +81,7 @@ export class Welcome < View
 ```
 
 **info-component.imba** (Imba Component)
-```py
+```ruby
 export tag InfoComponent
 	prop locale\String = state && state.locale
 	prop formidableVersion\String = state && state.formidableVersion
